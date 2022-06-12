@@ -10,8 +10,10 @@ Authors:
     Rahul Yedida <rahul@ryedida.me>
 """
 import logging
+import os
 
 from src.data import get_data
+from src.experiments import run_experiment
 
 
 # Global constants belong here. Add a comment describing what it is.
@@ -54,8 +56,8 @@ if __name__ == '__main__':
         # Defer data fetching and preprocessing to a data module.
         data = get_data(data_path, dataset_dic[dataset])
 
-        logging.info(f'Imbalance: {filename} - ' + str(round(
-            sum(dataset.y_train) / len(dataset.y_train), 3) * 100))
+        logging.info(f'Imbalance: {dataset} - ' + str(round(
+            sum(data.y_train) / len(data.y_train), 3) * 100))
 
         name = dataset
 

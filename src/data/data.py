@@ -27,6 +27,6 @@ def get_data(base_path, files):
     :return dataset (Data) - A Data object with the dataset loaded and binarized.
     """
     dataset = DataLoader.from_files(
-        base_path=base_path, files=dic[filename], hooks=[Hook('binarize', _binarize)])
+        base_path=base_path, files=files, hooks=[Hook('binarize', _binarize)])
 
     return dataset

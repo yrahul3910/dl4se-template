@@ -5,7 +5,10 @@ Authors:
     Rahul Yedida <rahul@ryedida.me>
 """
 from raise_utils.interpret import DODGEInterpreter
+from raise_utils.data import Data
+from raise_utils.metrics import ClassificationMetrics
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 import numpy as np
 import wandb
 
