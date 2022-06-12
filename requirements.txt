@@ -1,0 +1,5 @@
+raise-utils
+pycodestyle
+tensorflow>=2.0.0
+numpy
+wandb
