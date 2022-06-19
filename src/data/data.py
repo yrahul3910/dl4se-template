@@ -8,7 +8,10 @@ from raise_utils.data import DataLoader
 from raise_utils.hooks import Hook
 
 
-def _binarize(x, y):
+# Normally, we don't condone pylint disables, but in some ML code, variable
+# names like X and y are standard, so it's OK to disable warnings in such
+# cases.
+def _binarize(x, y):  # pylint: disable=unused-argument,invalid-name
     """
     Binarizes data.
 

@@ -4,16 +4,15 @@ Provides functions for running experiments, with wandb tracking.
 Authors:
     Rahul Yedida <rahul@ryedida.me>
 """
-from raise_utils.interpret import DODGEInterpreter
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input
 from raise_utils.data import Data
 from raise_utils.metrics import ClassificationMetrics
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
 import numpy as np
 import wandb
 
 
-def _run(data: Data, name: str):
+def _run(data: Data):
     """
     This shows an alternate form of docstring for functions.
 
@@ -24,6 +23,7 @@ def _run(data: Data, name: str):
     """
     input_shape = data.x_train.shape[1]
     model = Sequential([
+        Input(shape=(input_shape,)),
         Dense(5, activation='relu', name='layer1'),
         Dense(5, activation='relu', name='layer2'),
         Dense(1, activation='sigmoid', name='output')
@@ -37,7 +37,7 @@ def _run(data: Data, name: str):
 
     wandb.init(project='dl4se-demo')
 
-    history = model.fit(
+    model.fit(
         data.x_train,
         data.y_train,
         batch_size=128,
@@ -48,16 +48,16 @@ def _run(data: Data, name: str):
     # Get the results.
     metrics_list = ['f1', 'd2h', 'pd', 'pf', 'prec']
     preds = np.argmax(model.predict(data.x_test), axis=1)
-    m = ClassificationMetrics(data.y_test, preds)
-    m.add_metrics(metrics_list)
-    results = m.get_metrics()
+    metrics = ClassificationMetrics(data.y_test, preds)
+    metrics.add_metrics(metrics_list)
+    results = metrics.get_metrics()
 
     wandb.log(dict(zip(metrics_list, results)))
 
     return results
 
 
-def run_experiment(name, dataset):
+def run_experiment(dataset):
     """
     Runs an experiment with a given config, for a given dataset.
 
@@ -66,8 +66,8 @@ def run_experiment(name, dataset):
     :return result - F1 scores for the experiment.
     """
     results = []
-    for i in range(10):
-        result = _run(dataset, name)
+    for _ in range(10):
+        result = _run(dataset)
         results.append(result[0])
 
     return results

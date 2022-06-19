@@ -48,19 +48,17 @@ if __name__ == '__main__':
 
     # Add comments regularly. Your code may speak for itself TO YOU,
     # but it is important that others understand your code anyway.
-    for dataset in dataset_dic:
-        logging.info(f'Running on dataset {dataset}')
+    for dataset, files in dataset_dic.items():
+        logging.info('Running on dataset %s', dataset)
 
-        data_path = './data/'
+        DATA_PATH = './data/'
 
         # Defer data fetching and preprocessing to a data module.
-        data = get_data(data_path, dataset_dic[dataset])
+        data = get_data(DATA_PATH, files)
 
-        logging.info(f'Imbalance: {dataset} - ' + str(round(
-            sum(data.y_train) / len(data.y_train), 3) * 100))
-
-        name = dataset
+        logging.info('Imbalance: %s - %s', dataset, str(round(
+            sum(dataset.y_train) / len(dataset.y_train), 3) * 100))
 
         # The actual experiment should be abstracted away.
         # Do NOT put training code in this file.
-        run_experiment(name, data)
+        run_experiment(data)
